@@ -8,12 +8,14 @@
  */
 package com.roncoo.pay.service.notify.entity;
 
-import java.io.Serializable;
-import java.util.Date;
-
+import com.alibaba.fastjson.JSONObject;
 import com.roncoo.pay.common.core.entity.BaseEntity;
 import com.roncoo.pay.service.notify.enums.NotifyStatusEnum;
 import com.roncoo.pay.service.notify.enums.NotifyTypeEnum;
+
+import java.io.Serializable;
+import java.util.Date;
+import java.util.Map;
 
 /**
  * @功能说明:
@@ -26,22 +28,19 @@ public class RpNotifyRecord  extends BaseEntity implements Serializable{
 
     private static final long serialVersionUID = -6104194914044220447L;
 
-//    private Long notifyId;
-//
-//    public Long getNotifyId() {
-//        return notifyId;
-//    }
-
     private Date createTime;
+    
+    /** 通知规则 */
+    private String notifyRule;
 
     /** 最后一次通知时间 **/
     private Date lastNotifyTime;
 
     /** 通知次数 **/
-    private Integer notifyTimes = 0;
+    private Integer notifyTimes;
 
     /** 限制通知次数 **/
-    private Integer limitNotifyTimes = 5;
+    private Integer limitNotifyTimes;
 
     /** 通知URL **/
     private String url;
@@ -59,10 +58,11 @@ public class RpNotifyRecord  extends BaseEntity implements Serializable{
         super();
     }
 
-    public RpNotifyRecord(Date createTime, Date lastNotifyTime, Integer notifyTimes, Integer limitNotifyTimes, String url, String merchantNo,
+    public RpNotifyRecord(Date createTime, String notifyRule, Date lastNotifyTime, Integer notifyTimes, Integer limitNotifyTimes, String url, String merchantNo,
                           String merchantOrderNo, NotifyStatusEnum status, NotifyTypeEnum type) {
         super();
         this.createTime = createTime;
+        this.notifyRule = notifyRule;
         this.lastNotifyTime = lastNotifyTime;
         this.notifyTimes = notifyTimes;
         this.limitNotifyTimes = limitNotifyTimes;
@@ -74,7 +74,27 @@ public class RpNotifyRecord  extends BaseEntity implements Serializable{
     }
 
 
-    /** 最后一次通知时间 **/
+    
+    /** 通知规则 */
+    public String getNotifyRule() {
+		return notifyRule;
+	}
+
+    /** 通知规则 */
+	public void setNotifyRule(String notifyRule) {
+		this.notifyRule = notifyRule;
+	}
+	
+	/**
+	 * 获取通知规则的Map<String, Integer>.
+	 * @return
+	 */
+	@SuppressWarnings({ "unchecked", "rawtypes" })
+	public Map<String, Integer> getNotifyRuleMap(){
+		return (Map) JSONObject.parseObject(getNotifyRule());
+	}
+
+	/** 最后一次通知时间 **/
     public Date getLastNotifyTime() {
         return lastNotifyTime;
     }

@@ -40,9 +40,10 @@
 			<value>MERCHANT_NOTIFY</value>
 		</constructor-arg>
 	</bean>
+	
 	<!-- 消息监听器 -->
-	<bean id="consumerMessageListener"
-		class="com.roncoo.pay.app.notify.message.ConsumerSessionAwareMessageListener" />
+	<bean id="consumerMessageListener" class="com.roncoo.pay.app.notify.listener.ConsumerSessionAwareMessageListener" />
+	
 	<!-- 消息监听容器 -->
 	<bean id="jmsContainer"
 		class="org.springframework.jms.listener.DefaultMessageListenerContainer">
@@ -50,4 +51,5 @@
 		<property name="destination" ref="queueDestination" />
 		<property name="messageListener" ref="consumerMessageListener" />
 	</bean>
+	
 </beans>

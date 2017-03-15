@@ -25,11 +25,7 @@ public interface RpNotifyRecordLogDao  extends BaseDao<RpNotifyRecordLog> {
 
     int deleteByPrimaryKey(String id);
 
-    int insertSelective(RpNotifyRecordLog record);
-
     RpNotifyRecordLog selectByPrimaryKey(String id);
-
-    int updateByPrimaryKeySelective(RpNotifyRecordLog record);
 
     int updateByPrimaryKey(RpNotifyRecordLog record);
 }

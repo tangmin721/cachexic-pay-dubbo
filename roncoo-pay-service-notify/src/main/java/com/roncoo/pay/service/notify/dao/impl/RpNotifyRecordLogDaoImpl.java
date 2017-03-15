@@ -29,18 +29,8 @@ public class RpNotifyRecordLogDaoImpl extends BaseDaoImpl<RpNotifyRecordLog> imp
     }
 
     @Override
-    public int insertSelective(RpNotifyRecordLog record) {
-        return 0;
-    }
-
-    @Override
     public RpNotifyRecordLog selectByPrimaryKey(String id) {
         return null;
-    }
-
-    @Override
-    public int updateByPrimaryKeySelective(RpNotifyRecordLog record) {
-        return 0;
     }
 
     @Override

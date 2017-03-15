@@ -10,17 +10,16 @@ package com.roncoo.pay.app.notify.core;
 
 import java.io.Serializable;
 import java.util.Date;
-import java.util.Map;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Service;
 
 import com.roncoo.pay.app.notify.App;
-import com.roncoo.pay.app.notify.entity.NotifyParam;
+import com.roncoo.pay.app.notify.param.NotifyParam;
+import com.roncoo.pay.common.core.utils.DateUtils;
 import com.roncoo.pay.service.notify.entity.RpNotifyRecord;
-import com.roncoo.pay.service.notify.enums.NotifyStatusEnum;
 
 /**
  * @功能说明:
@@ -29,7 +28,7 @@ import com.roncoo.pay.service.notify.enums.NotifyStatusEnum;
  * @公司名称:广州市领课网络科技有限公司 龙果学院(www.roncoo.com)
  * @版本:V1.0
  */
-@Component
+@Service("notifyQueue")
 public class NotifyQueue implements Serializable {
 
     /**
@@ -41,49 +40,32 @@ public class NotifyQueue implements Serializable {
 
     @Autowired
     private NotifyParam notifyParam;
+    
 
-    @Autowired
-    private NotifyPersist notifyPersist;
     /**
-     * 将传过来的对象进行通知次数判断，之后决定是否放在任务队列中
-     *
+     * 将传过来的对象进行通知次数判断，决定是否放在任务队列中.<br/>
      * @param notifyRecord
      * @throws Exception
      */
-    public void addElementToList(RpNotifyRecord notifyRecord) {
+    public void addToNotifyTaskDelayQueue(RpNotifyRecord notifyRecord) {
         if (notifyRecord == null) {
             return;
         }
+        LOG.info("===>addToNotifyTaskDelayQueue notify id:" + notifyRecord.getId());
         Integer notifyTimes = notifyRecord.getNotifyTimes(); // 通知次数
-        Integer maxNotifyTime = 0;
-        try {
-            maxNotifyTime = notifyParam.getMaxNotifyTime();
-        } catch (Exception e) {
-            LOG.error(e);
+        Integer maxNotifyTimes = notifyRecord.getLimitNotifyTimes(); // 最大通知次数
+        
+        if (notifyRecord.getNotifyTimes().intValue() == 0) {
+            notifyRecord.setLastNotifyTime(new Date()); // 第一次发送(取当前时间)
+        }else{
+        	notifyRecord.setLastNotifyTime(notifyRecord.getEditTime()); // 非第一次发送（取上一次修改时间，也是上一次发送时间）
         }
-        if (notifyRecord.getVersion().intValue() == 0) {// 刚刚接收到的数据
-            notifyRecord.setLastNotifyTime(new Date());
+        
+        if (notifyTimes < maxNotifyTimes) {
+        	// 未超过最大通知次数，继续下一次通知
+            LOG.info("===>notify id:" + notifyRecord.getId() + ", 上次通知时间lastNotifyTime:" + DateUtils.formatDate(notifyRecord.getLastNotifyTime(), "yyyy-MM-dd HH:mm:ss SSS"));
+            App.tasks.put(new NotifyTask(notifyRecord, this, notifyParam));
         }
-        long time = notifyRecord.getLastNotifyTime().getTime();
-        Map<Integer, Integer> timeMap = notifyParam.getNotifyParams();
-        if (notifyTimes < maxNotifyTime) {
-            Integer nextKey = notifyTimes + 1;
-            Integer next = timeMap.get(nextKey);
-            if (next != null) {
-                time += 1000 * 60 * next + 1;
-                notifyRecord.setLastNotifyTime(new Date(time));
-                App.tasks.put(new NotifyTask(notifyRecord, this, notifyParam));
-            }
-        } else {
-            try {
-                // 持久化到数据库中
-                notifyPersist.updateNotifyRord(notifyRecord.getId(),
-                        notifyRecord.getNotifyTimes(), NotifyStatusEnum.FAILED.name());
-                LOG.info("Update NotifyRecord failed,merchantNo:" + notifyRecord.getMerchantNo() + ",merchantOrderNo:"
-                        + notifyRecord.getMerchantOrderNo());
-            } catch (Exception e) {
-                LOG.error(e);
-            }
-        }
+        
     }
 }

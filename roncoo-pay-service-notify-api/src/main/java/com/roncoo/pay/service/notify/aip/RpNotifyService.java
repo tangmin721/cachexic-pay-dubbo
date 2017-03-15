@@ -8,13 +8,13 @@
  */
 package com.roncoo.pay.service.notify.aip;
 
-import java.util.Map;
-
 import com.roncoo.pay.common.core.page.PageBean;
 import com.roncoo.pay.common.core.page.PageParam;
 import com.roncoo.pay.service.notify.entity.RpNotifyRecord;
 import com.roncoo.pay.service.notify.entity.RpNotifyRecordLog;
 import com.roncoo.pay.service.notify.exceptions.NotifyBizException;
+
+import java.util.Map;
 
 /**
  * @功能说明:
@@ -26,34 +26,7 @@ import com.roncoo.pay.service.notify.exceptions.NotifyBizException;
 
 
 public interface RpNotifyService {
-
-    /**
-     * 发送消息通知
-     * @param notifyUrl 通知地址
-     * @param merchantOrderNo   商户订单号
-     * @param merchantNo    商户编号
-     */
-    public void notifySend(String notifyUrl,String merchantOrderNo,String merchantNo) throws NotifyBizException;
-
-
-    /**
-     * 通过ID获取通知记录
-     * @param id
-     * @return
-     */
-    public RpNotifyRecord getNotifyRecordById(String id) throws NotifyBizException;
-
-    /**
-     * 根据商户编号,商户订单号,通知类型获取通知记录
-     * @param merchantNo    商户编号
-     * @param merchantOrderNo   商户订单号
-     * @param notifyType    消息类型
-     * @return
-     */
-    public RpNotifyRecord getNotifyByMerchantNoAndMerchantOrderNoAndNotifyType(String merchantNo , String merchantOrderNo , String notifyType) throws NotifyBizException;
-
-
-    public PageBean<RpNotifyRecord>  queryNotifyRecordListPage(PageParam pageParam , Map<String, Object> paramMap) throws NotifyBizException;
+	
     /**
      * 创建消息通知
      * @param rpNotifyRecord
@@ -72,5 +45,37 @@ public interface RpNotifyService {
      * @return
      */
     public long createNotifyRecordLog(RpNotifyRecordLog rpNotifyRecordLog) throws NotifyBizException;
+    
+
+    /**
+     * 发送消息通知
+     * @param notifyUrl 通知地址
+     * @param merchantOrderNo   商户订单号
+     * @param merchantNo    商户编号
+     */
+    public void notifySend(String notifyUrl, String merchantOrderNo, String merchantNo) throws NotifyBizException;
+
+
+    /**
+     * 通过ID获取通知记录
+     * @param id
+     * @return
+     */
+    public RpNotifyRecord getNotifyRecordById(String id) throws NotifyBizException;
+
+    /**
+     * 根据商户编号,商户订单号,通知类型获取通知记录
+     * @param merchantNo    商户编号
+     * @param merchantOrderNo   商户订单号
+     * @param notifyType    消息类型
+     * @return
+     */
+    public RpNotifyRecord getNotifyByMerchantNoAndMerchantOrderNoAndNotifyType(String merchantNo, String merchantOrderNo, String notifyType) throws NotifyBizException;
+
+    /**
+     * 按条件分页查询通知记录.
+     */
+    public PageBean<RpNotifyRecord> queryNotifyRecordListPage(PageParam pageParam, Map<String, Object> paramMap) throws NotifyBizException;
+
 
 }

@@ -8,17 +8,6 @@
  */
 package com.roncoo.pay.service.notify.api.impl;
 
-import java.util.Map;
-
-import javax.jms.JMSException;
-import javax.jms.Message;
-import javax.jms.Session;
-
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.jms.core.JmsTemplate;
-import org.springframework.jms.core.MessageCreator;
-import org.springframework.stereotype.Service;
-
 import com.alibaba.fastjson.JSONObject;
 import com.roncoo.pay.common.core.page.PageBean;
 import com.roncoo.pay.common.core.page.PageParam;
@@ -29,6 +18,15 @@ import com.roncoo.pay.service.notify.entity.RpNotifyRecord;
 import com.roncoo.pay.service.notify.entity.RpNotifyRecordLog;
 import com.roncoo.pay.service.notify.enums.NotifyStatusEnum;
 import com.roncoo.pay.service.notify.enums.NotifyTypeEnum;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.jms.core.JmsTemplate;
+import org.springframework.jms.core.MessageCreator;
+import org.springframework.stereotype.Service;
+
+import javax.jms.JMSException;
+import javax.jms.Message;
+import javax.jms.Session;
+import java.util.Map;
 
 /**
  * @功能说明:
@@ -48,6 +46,40 @@ public class RpNotifyServiceImpl implements RpNotifyService {
 
     @Autowired
     private RpNotifyRecordLogDao rpNotifyRecordLogDao;
+    
+    /**
+     * 创建消息通知
+     *
+     * @param rpNotifyRecord
+     */
+    @Override
+    public long createNotifyRecord(RpNotifyRecord rpNotifyRecord) {
+        return rpNotifyRecordDao.insert(rpNotifyRecord);
+    }
+
+    /**
+     * 修改消息通知
+     *
+     * @param rpNotifyRecord
+     */
+    @Override
+    public void updateNotifyRecord(RpNotifyRecord rpNotifyRecord) {
+        rpNotifyRecordDao.update(rpNotifyRecord);
+    }
+
+    /**
+     * 创建消息通知记录
+     *
+     * @param rpNotifyRecordLog
+     * @return
+     */
+    @Override
+    public long createNotifyRecordLog(RpNotifyRecordLog rpNotifyRecordLog) {
+        return rpNotifyRecordLogDao.insert(rpNotifyRecordLog);
+    }
+    
+    
+    
     /**
      * 发送消息通知
      *
@@ -101,41 +133,13 @@ public class RpNotifyServiceImpl implements RpNotifyService {
         return rpNotifyRecordDao.getNotifyByMerchantNoAndMerchantOrderNoAndNotifyType(merchantNo,merchantOrderNo,notifyType);
     }
 
-    @Override
+    @SuppressWarnings("unchecked")
+	@Override
     public PageBean<RpNotifyRecord> queryNotifyRecordListPage(PageParam pageParam, Map<String, Object> paramMap) {
         return rpNotifyRecordDao.listPage(pageParam,paramMap);
     }
 
-    /**
-     * 创建消息通知
-     *
-     * @param rpNotifyRecord
-     */
-    @Override
-    public long createNotifyRecord(RpNotifyRecord rpNotifyRecord) {
-        return rpNotifyRecordDao.insert(rpNotifyRecord);
-    }
 
-    /**
-     * 修改消息通知
-     *
-     * @param rpNotifyRecord
-     */
-    @Override
-    public void updateNotifyRecord(RpNotifyRecord rpNotifyRecord) {
-        rpNotifyRecordDao.update(rpNotifyRecord);
-    }
-
-    /**
-     * 创建消息通知记录
-     *
-     * @param rpNotifyRecordLog
-     * @return
-     */
-    @Override
-    public long createNotifyRecordLog(RpNotifyRecordLog rpNotifyRecordLog) {
-        return rpNotifyRecordLogDao.insert(rpNotifyRecordLog);
-    }
 
 
 }
