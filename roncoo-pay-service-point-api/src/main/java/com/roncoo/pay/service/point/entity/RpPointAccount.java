@@ -8,9 +8,9 @@
  */
 package com.roncoo.pay.service.point.entity;
 
-import java.io.Serializable;
-
 import com.roncoo.pay.common.core.entity.BaseEntity;
+
+import java.io.Serializable;
 
 /**
  * @功能说明: 账户信息
