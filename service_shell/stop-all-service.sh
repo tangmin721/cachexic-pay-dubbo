@@ -4,7 +4,11 @@
 export JAVA_HOME=/usr/local/java/jdk1.7.0_45
 export JRE_HOME=$JAVA_HOME/jre
 
-/home/roncoo/service/capital/service-capital.sh stop
-/home/roncoo/service/order/service-order.sh stop
-/home/roncoo/service/redpacket/service-redpacket.sh stop
+/home/roncoo/service/account/service-account.sh stop
+/home/roncoo/service/accounting/service-accounting.sh stop
+/home/roncoo/service/notify/service-notify.sh stop
+/home/roncoo/service/trade/service-trade.sh stop
+/home/roncoo/service/user/service-user.sh stop
+/home/roncoo/service/message/service-message.sh stop
+/home/roncoo/service/point/service-point.sh stop
 
