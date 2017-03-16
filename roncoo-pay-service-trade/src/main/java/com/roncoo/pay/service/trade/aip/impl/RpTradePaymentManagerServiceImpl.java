@@ -8,6 +8,18 @@
  */
 package com.roncoo.pay.service.trade.aip.impl;
 
+import java.math.BigDecimal;
+import java.util.Date;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+
 import com.alibaba.fastjson.JSONObject;
 import com.roncoo.pay.common.core.enums.NotifyDestinationNameEnum;
 import com.roncoo.pay.common.core.enums.PayTypeEnum;
@@ -23,6 +35,7 @@ import com.roncoo.pay.service.notify.entity.RpNotifyRecord;
 import com.roncoo.pay.service.notify.enums.NotifyStatusEnum;
 import com.roncoo.pay.service.notify.enums.NotifyTypeEnum;
 import com.roncoo.pay.service.trade.api.RpTradePaymentManagerService;
+import com.roncoo.pay.service.trade.biz.impl.RpTradePaymentManagerBizImpl;
 import com.roncoo.pay.service.trade.dao.RpTradePaymentOrderDao;
 import com.roncoo.pay.service.trade.dao.RpTradePaymentRecordDao;
 import com.roncoo.pay.service.trade.entity.RpTradePaymentOrder;
@@ -53,17 +66,6 @@ import com.roncoo.pay.service.user.entity.RpUserPayConfig;
 import com.roncoo.pay.service.user.entity.RpUserPayInfo;
 import com.roncoo.pay.service.user.enums.FundInfoTypeEnum;
 import com.roncoo.pay.service.user.exceptions.UserBizException;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
-
-import java.math.BigDecimal;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
 
 /**
  * @功能说明:   RoncooPay订单管理服务接口实现,所有与接口相关,需要做数据修改,事务管理的类,由该接口管理
@@ -101,6 +103,9 @@ public class RpTradePaymentManagerServiceImpl implements RpTradePaymentManagerSe
 
     @Autowired
     private RpTransactionMessageService rpTransactionMessageService;
+
+    @Autowired
+    private RpTradePaymentManagerBizImpl rpTradePaymentManagerBiz;
 
     /**
      * 初始化直连扫码支付数据,直连扫码支付初始化方法规则
@@ -199,13 +204,14 @@ public class RpTradePaymentManagerServiceImpl implements RpTradePaymentManagerSe
 
         LOG.info("------[接收到要处理的订单{}]--------[开始处理时间{}]------",bankOrderNo,DateUtils.formatDate(new Date(),"yyyy-MM-dd HH:mm:ss SSS"));
 
+        //根据银行订单号获取支付信息
         RpTradePaymentRecord rpTradePaymentRecord = rpTradePaymentRecordDao.getByBankOrderNo(bankOrderNo);
         if (rpTradePaymentRecord == null){
         	LOG.error("非法订单，订单{}不存在", bankOrderNo);
             throw new TradeBizException(TradeBizException.TRADE_ORDER_ERROR,",非法订单,订单不存在");
         }
 
-        //幂等判断
+        // 幂等判断
         if (TradeStatusEnum.SUCCESS.name().equals(rpTradePaymentRecord.getStatus())){
             LOG.info("订单{}为成功状态,不做业务处理",bankOrderNo);
             return;
@@ -274,10 +280,14 @@ public class RpTradePaymentManagerServiceImpl implements RpTradePaymentManagerSe
             LOG.info("==>保存消息数据");
 
             try {
-                completeSuccessOrder(rpTradePaymentRecord, bankTrxNo, timeEnd, bankReturnMsg);
-            } catch (Exception e) {
-                throw new TradeBizException(TradeBizException.TRADE_SYSTEM_ERROR,"交易系统异常,处理支付结果失败");
-            }
+            	
+                rpTradePaymentManagerBiz.completeSuccessOrder(rpTradePaymentRecord, bankTrxNo, timeEnd, bankReturnMsg);
+                
+	        } catch (Throwable e) {
+	            //other exceptions throws at TRYING stage.
+	            //you can retry or cancel the operation.
+	            throw new TradeBizException(TradeBizException.TRADE_SYSTEM_ERROR,"交易系统异常,处理支付结果失败");
+	        }
             
             rpTransactionMessageService.confirmAndSendMessage(rpTransactionMessage.getMessageId());
             LOG.info("==>修改消息状态");

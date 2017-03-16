@@ -58,7 +58,7 @@ public interface HttpClientWrapper {
 	 * @throws IOException
 	 */
 	public String doRequest(MethodType method, String url,
-							Map<String, String> params, String charset) throws HttpException,
+                            Map<String, String> params, String charset) throws HttpException,
 			IOException;
  /**
   * 
@@ -87,7 +87,7 @@ public interface HttpClientWrapper {
 	// HttpResponseCallBack 是设置的一个回调类 ，主要是考虑由于httpClient 返回的流 当连接关闭时流也关闭了
 	// 所以利用回调的方式在流关闭之间嵌入用户代码，来操做流
 	public void doRequest(HttpResponseCallBack callback, MethodType method,
-						  String url, Map<String, String> params, String charset)
+                          String url, Map<String, String> params, String charset)
 			throws HttpException, IOException;
 
 	/**
@@ -104,6 +104,6 @@ public interface HttpClientWrapper {
 	// HttpResponseCallBack 是设置的一个回调类 ，主要是考虑由于httpClient 返回的流 当连接关闭时流也关闭了
 	// 所以利用回调的方式在流关闭之间嵌入用户代码，来操做流
 	public void doRequest(HttpResponseCallBack callback, MethodType method,
-						  String url, String charset) throws HttpException, IOException;
+                          String url, String charset) throws HttpException, IOException;
 
 }

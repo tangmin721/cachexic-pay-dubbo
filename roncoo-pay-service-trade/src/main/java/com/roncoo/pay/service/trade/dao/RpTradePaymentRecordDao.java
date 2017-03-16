@@ -48,7 +48,7 @@ public interface RpTradePaymentRecordDao extends BaseDao<RpTradePaymentRecord>{
      * @param merchantOrderNo
      * @return
      */
-    RpTradePaymentRecord getByMerchantNoAndMerchantOrderNo(String merchantNo , String merchantOrderNo);
+    RpTradePaymentRecord getByMerchantNoAndMerchantOrderNo(String merchantNo, String merchantOrderNo);
 
     /**
 	 * 根据支付流水号查询支付记录

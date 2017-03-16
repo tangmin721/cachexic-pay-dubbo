@@ -76,7 +76,7 @@ public interface RpTradePaymentQueryService {
 	 * @param paymentOrderQueryVo
 	 * @return
 	 */
-	public PageBean<RpTradePaymentOrder> listPaymentOrderPage(PageParam pageParam ,PaymentOrderQueryVo paymentOrderQueryVo);
+	public PageBean<RpTradePaymentOrder> listPaymentOrderPage(PageParam pageParam, PaymentOrderQueryVo paymentOrderQueryVo);
 
 	/**
 	 * 分页查询支付记录
@@ -84,6 +84,6 @@ public interface RpTradePaymentQueryService {
 	 * @param paymentOrderQueryVo
 	 * @return
 	 */
-	public PageBean<RpTradePaymentRecord> listPaymentRecordPage(PageParam pageParam ,PaymentOrderQueryVo paymentOrderQueryVo);
+	public PageBean<RpTradePaymentRecord> listPaymentRecordPage(PageParam pageParam, PaymentOrderQueryVo paymentOrderQueryVo);
 
 }

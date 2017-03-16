@@ -61,7 +61,7 @@ public interface RpTradePaymentManagerService {
      * @param notifyMap
      * @return
      */
-    public void completeScanPay(String payWayCode ,Map<String, String> notifyMap) throws TradeBizException;
+    public void completeScanPay(String payWayCode, Map<String, String> notifyMap) throws TradeBizException;
 
     /**
      *
@@ -69,7 +69,7 @@ public interface RpTradePaymentManagerService {
      * @param resultMap
      * @return
      */
-    public OrderPayResultVo completeScanPayByResult(String payWayCode , Map<String , String> resultMap) throws TradeBizException;
+    public OrderPayResultVo completeScanPayByResult(String payWayCode, Map<String, String> resultMap) throws TradeBizException;
     
     
     /**
@@ -129,7 +129,7 @@ public interface RpTradePaymentManagerService {
      * @param payWayCode
      * @return
      */
-    public ScanPayResultVo toNonDirectScanPay(String payKey , String orderNo , String payWayCode) throws TradeBizException;
+    public ScanPayResultVo toNonDirectScanPay(String payKey, String orderNo, String payWayCode) throws TradeBizException;
     
     /**
      * 回调通知验证签名
@@ -137,7 +137,7 @@ public interface RpTradePaymentManagerService {
      * @param notifyMap
      * @return
      */
-    public void verifyNotify(String payWayCode ,Map<String, String> notifyMap) throws TradeBizException;
+    public void verifyNotify(String payWayCode, Map<String, String> notifyMap) throws TradeBizException;
 
 
     public String getMerchantNotifyMessage(String payWayCode, Map<String, String> resultMap) throws TradeBizException;

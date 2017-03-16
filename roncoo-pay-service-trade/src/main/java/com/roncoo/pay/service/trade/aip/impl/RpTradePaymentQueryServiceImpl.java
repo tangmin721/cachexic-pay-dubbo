@@ -8,13 +8,6 @@
  */
 package com.roncoo.pay.service.trade.aip.impl;
 
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
-
 import com.roncoo.pay.common.core.enums.PublicEnum;
 import com.roncoo.pay.common.core.page.PageBean;
 import com.roncoo.pay.common.core.page.PageParam;
@@ -29,6 +22,12 @@ import com.roncoo.pay.service.trade.vo.PaymentOrderQueryVo;
 import com.roncoo.pay.service.user.api.RpUserPayConfigService;
 import com.roncoo.pay.service.user.entity.RpUserPayConfig;
 import com.roncoo.pay.service.user.exceptions.UserBizException;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 /**
  * 

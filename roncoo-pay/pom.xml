@@ -7,7 +7,7 @@
 	<!-- 龙果学院（ http://www.roncoo.com ）超级教程系列 -->
 	<!-- 《微服务架构的分布式事务解决方案》视频教程 -->
 	<!-- 讲师：吴水成（水到渠成），840765167@qq.com -->
-	<!-- 课程地址：http://www.roncoo.com/details/7ae3d7eddc4742f78b0548aa8bd9ccdb -->
+	<!-- 课程地址：http://www.roncoo.com/course/view/7ae3d7eddc4742f78b0548aa8bd9ccdb -->
 	<!-- ==================================================================== -->
 
 	<groupId>com.roncoo.pay.common</groupId>
@@ -59,7 +59,7 @@
 		<commons-io.version>2.5</commons-io.version>
 		<jdom.version>2.0.2</jdom.version>
 		<junit.version>4.11</junit.version>
-		<tcc.version>1.1.1</tcc.version>
+		<tcc.version>1.1.5</tcc.version>
 	</properties>
 
 	<dependencyManagement>
@@ -327,6 +327,7 @@
 
 			<!-- dubbo end -->
 
+			<!-- tcc-transaction begin -->
 			<dependency>
 				<groupId>org.mengyun</groupId>
 				<artifactId>tcc-transaction-spring</artifactId>
@@ -342,7 +343,8 @@
 				<artifactId>tcc-transaction-api</artifactId>
 				<version>${tcc.version}</version>
 			</dependency>
-
+			<!-- tcc-transaction end -->
+			
 		</dependencies>
 	</dependencyManagement>
 
@@ -437,5 +439,5 @@
 <!-- 龙果学院（ http://www.roncoo.com ）超级教程系列 -->
 <!-- 《微服务架构的分布式事务解决方案》视频教程 -->
 <!-- 讲师：吴水成（水到渠成），840765167@qq.com -->
-<!-- 课程地址：http://www.roncoo.com/details/7ae3d7eddc4742f78b0548aa8bd9ccdb -->
+<!-- 课程地址：http://www.roncoo.com/course/view/7ae3d7eddc4742f78b0548aa8bd9ccdb -->
 <!-- ==================================================================== -->

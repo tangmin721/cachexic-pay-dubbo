@@ -43,6 +43,14 @@
 			<version>${project.parent.version}</version>
 		</dependency>
 
+		<!-- tcc-transaction begin -->
+		<dependency>
+			<groupId>org.mengyun</groupId>
+			<artifactId>tcc-transaction-api</artifactId>
+			<version>${tcc.version}</version>
+		</dependency>
+		<!-- tcc-transaction begin -->
+
 		<!-- http://mvnrepository.com/artifact/commons-httpclient/commons-httpclient -->
 		<dependency>
 			<groupId>commons-httpclient</groupId>

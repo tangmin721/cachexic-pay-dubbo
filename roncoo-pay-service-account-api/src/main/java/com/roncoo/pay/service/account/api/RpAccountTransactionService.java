@@ -10,6 +10,7 @@ package com.roncoo.pay.service.account.api;
 
 import com.roncoo.pay.service.account.entity.RpAccount;
 import com.roncoo.pay.service.account.exceptions.AccountBizException;
+import org.mengyun.tcctransaction.api.TransactionContext;
 
 import java.math.BigDecimal;
 
@@ -27,10 +28,13 @@ import java.math.BigDecimal;
 public interface RpAccountTransactionService {
 
 	/** 加款:有银行流水 **/
-	RpAccount creditToAccount(String userNo, BigDecimal amount, String requestNo,String bankTrxNo, String trxType, String remark) throws AccountBizException;
-	
+	RpAccount creditToAccount(String userNo, BigDecimal amount, String requestNo, String bankTrxNo, String trxType, String remark) throws AccountBizException;
+
+	/** 加款:有银行流水 **/
+	void creditToAccountTcc(TransactionContext transactionContext, String userNo, BigDecimal amount, String requestNo, String bankTrxNo, String trxType, String remark) throws AccountBizException;
+
 	/** 减款 :有银行流水**/
-	RpAccount debitToAccount(String userNo, BigDecimal amount, String requestNo,String bankTrxNo, String trxType, String remark) throws AccountBizException;
+	RpAccount debitToAccount(String userNo, BigDecimal amount, String requestNo, String bankTrxNo, String trxType, String remark) throws AccountBizException;
 	
 	/** 加款 **/
 	RpAccount creditToAccount(String userNo, BigDecimal amount, String requestNo, String trxType, String remark) throws AccountBizException;
