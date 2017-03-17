@@ -8,14 +8,14 @@
  */
 package com.roncoo.pay.service.notify.entity;
 
+import java.io.Serializable;
+import java.util.Date;
+import java.util.Map;
+
 import com.alibaba.fastjson.JSONObject;
 import com.roncoo.pay.common.core.entity.BaseEntity;
 import com.roncoo.pay.service.notify.enums.NotifyStatusEnum;
 import com.roncoo.pay.service.notify.enums.NotifyTypeEnum;
-
-import java.io.Serializable;
-import java.util.Date;
-import java.util.Map;
 
 /**
  * @功能说明:

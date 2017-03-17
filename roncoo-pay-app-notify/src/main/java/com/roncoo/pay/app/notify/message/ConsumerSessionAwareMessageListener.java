@@ -8,16 +8,6 @@
  */
 package com.roncoo.pay.app.notify.message;
 
-import java.util.Date;
-
-import javax.jms.Message;
-import javax.jms.MessageListener;
-
-import org.apache.activemq.command.ActiveMQTextMessage;
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
-import org.springframework.beans.factory.annotation.Autowired;
-
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
 import com.roncoo.pay.app.notify.core.NotifyPersist;
@@ -27,6 +17,14 @@ import com.roncoo.pay.common.core.utils.StringUtil;
 import com.roncoo.pay.service.notify.aip.RpNotifyService;
 import com.roncoo.pay.service.notify.entity.RpNotifyRecord;
 import com.roncoo.pay.service.notify.enums.NotifyStatusEnum;
+import org.apache.activemq.command.ActiveMQTextMessage;
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+
+import javax.jms.Message;
+import javax.jms.MessageListener;
+import java.util.Date;
 
 /**
  * @功能说明:
@@ -82,7 +80,8 @@ public class ConsumerSessionAwareMessageListener  implements MessageListener {
                 notifyRecord = rpNotifyService.getNotifyByMerchantNoAndMerchantOrderNoAndNotifyType(notifyRecord.getMerchantNo(), notifyRecord.getMerchantOrderNo(), notifyRecord.getNotifyType());
 
                 // 添加到通知队列
-                notifyQueue.addElementToList(notifyRecord);
+               // notifyQueue.addElementToList(notifyRecord);
+                notifyQueue.addToNotifyTaskDelayQueue(notifyRecord);
             }  catch (BizException e) {
                 log.error("BizException :", e);
             } catch (Exception e) {
